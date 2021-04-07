@@ -68,6 +68,10 @@ app.delete('/api/projects/:projectID', async (req, res) => {
       res.send(404);
       return;
     }
+    let timers = await Timer.find({project:project});
+    for (timer of timers) {
+      await timer.delete();
+    }
     await project.delete();
     res.sendStatus(200);
   } catch (error) {
